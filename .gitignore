@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+*.log
+
+# Backend data (keep structure, ignore contents)
+backend/data/cache.json
+backend/data/reports.json
+backend/data/uploads/
+
+# Frontend build
+frontend/dist/
+
+# Env files
+.env
+.env.local
