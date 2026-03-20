@@ -52,9 +52,9 @@ function aggregate8h(hourlyWind) {
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 const ACCENT = {
-  green:  { strip: 'bg-emerald-500', badge: 'bg-emerald-700 text-emerald-50' },
-  yellow: { strip: 'bg-amber-500',   badge: 'bg-amber-700 text-amber-50'     },
-  red:    { strip: 'bg-red-600',     badge: 'bg-red-800 text-red-50'         },
+  green:  { strip: 'bg-gradient-to-b from-emerald-400 to-emerald-600', glow: 'card-glow-green',  badge: 'bg-emerald-700 text-emerald-50' },
+  yellow: { strip: 'bg-gradient-to-b from-amber-400 to-amber-600',     glow: 'card-glow-yellow', badge: 'bg-amber-700 text-amber-50'     },
+  red:    { strip: 'bg-gradient-to-b from-red-500 to-red-700',         glow: 'card-glow-red',    badge: 'bg-red-800 text-red-50'         },
 };
 
 const PILL_COLOR = {
@@ -169,7 +169,7 @@ export default function RampCard({
   const hasContent    = expanded || activeSection !== null;
 
   return (
-    <div className="rounded-xl overflow-hidden border border-slate-700/50 shadow-lg bg-slate-800/40">
+    <div className={`rounded-2xl overflow-hidden border border-slate-700/30 bg-gradient-to-b from-slate-800/60 to-slate-900/80 ${accent.glow} transition-all`}>
 
       {/* Emergency closure */}
       {emergency?.hasClosure && (
@@ -198,50 +198,48 @@ export default function RampCard({
 
       {/* Card layout: colored left strip + content */}
       <div className="flex">
-        <div className={`w-1 flex-shrink-0 ${accent.strip}`} />
+        <div className={`w-1.5 flex-shrink-0 ${accent.strip}`} />
 
         <div className="flex-1 min-w-0">
 
           {/* Clickable header — name + status */}
           <button
-            className="w-full text-left px-4 pt-3 pb-2 hover:bg-white/[0.03] transition-colors"
+            className="w-full text-left px-5 pt-4 pb-3 hover:bg-white/[0.02] transition-colors"
             onClick={onToggle}
           >
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="font-bold text-white text-base leading-tight tracking-tight">
+                <p className="font-bold text-white text-lg leading-tight tracking-tight">
                   {displayName || rampName}
                 </p>
-                <p className="text-xs text-slate-500 mt-0.5">{areaLabel}</p>
+                <p className="text-xs text-slate-500 mt-0.5 font-medium tracking-wide">{areaLabel}</p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 mt-0.5">
-                <span className="text-slate-600 text-xs">{expanded ? '▲' : '▼'}</span>
-              </div>
+              <span className="text-slate-600 text-xs mt-1 flex-shrink-0">{expanded ? '▲' : '▼'}</span>
             </div>
           </button>
 
           {/* Pills — each is an independent toggle button */}
-          <div className="px-4 pb-2 flex gap-2 flex-wrap">
+          <div className="px-5 pb-3 flex gap-2 flex-wrap">
             {pillDefs.map(p => (
               <button
                 key={p.key}
                 onClick={() => toggleSection(p.key)}
-                className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-lg border font-medium transition-all ${
+                className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-semibold transition-all ${
                   PILL_COLOR[p.color]
-                } ${activeSection === p.key && !expanded ? 'ring-1 ring-white/20 brightness-125' : ''}`}
+                } ${activeSection === p.key && !expanded ? 'ring-1 ring-white/25 brightness-125' : ''}`}
               >
                 {p.label}
-                {p.value && <span className="font-bold opacity-80">{p.value}</span>}
+                {p.value && <span className="opacity-75">{p.value}</span>}
               </button>
             ))}
           </div>
 
           {/* Fish Gods strip */}
-          <div className="px-4 pb-3">
-            <div className="flex items-center gap-2.5 rounded-lg bg-slate-900/50 border border-slate-700/40 px-3 py-1.5">
+          <div className="px-5 pb-4">
+            <div className="flex items-center gap-2.5 rounded-xl bg-slate-900/70 border border-white/5 px-3 py-2">
               <span className="text-sm">{gods.emoji}</span>
               <div className="flex items-center gap-1.5 min-w-0">
-                <span className="text-xs text-slate-500 font-medium">Fish Gods:</span>
+                <span className="text-xs text-slate-500 font-medium">Fish Gods Meter:</span>
                 <span className={`text-xs font-bold ${gods.color}`}>{gods.label}</span>
                 <span className={`text-xs italic ${gods.color} opacity-40 hidden sm:inline truncate`}>
                   — "{gods.message}"
@@ -252,7 +250,7 @@ export default function RampCard({
 
           {/* Conditional section content */}
           {hasContent && (
-            <div className="border-t border-slate-700/40 px-4 py-4 space-y-5">
+            <div className="border-t border-white/5 px-5 py-5 space-y-5">
 
               {showSection('creel') && (
                 <Section title="Creel Counts — Last 5 Days">

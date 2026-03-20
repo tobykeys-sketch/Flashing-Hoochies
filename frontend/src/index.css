@@ -3,6 +3,27 @@
 @tailwind utilities;
 
 body {
-  @apply bg-slate-900 text-slate-100;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #080e1a;
+  color: #e2e8f0;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Subtle noise texture overlay on header */
+.header-texture {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.15) 0%, transparent 60%),
+    linear-gradient(180deg, #0a1628 0%, #080e1a 100%);
+}
+
+/* Glowing card accent */
+.card-glow-green  { box-shadow: 0 0 0 1px rgba(16,185,129,0.2), 0 20px 40px rgba(0,0,0,0.4); }
+.card-glow-yellow { box-shadow: 0 0 0 1px rgba(245,158,11,0.2), 0 20px 40px rgba(0,0,0,0.4); }
+.card-glow-red    { box-shadow: 0 0 0 1px rgba(239,68,68,0.15), 0 20px 40px rgba(0,0,0,0.4); }
+
+/* Pulsing live dot */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+.live-dot { animation: live-pulse 2s ease-in-out infinite; }

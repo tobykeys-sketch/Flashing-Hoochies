@@ -53,30 +53,39 @@ export default function App() {
     : [];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen" style={{background:'#080e1a'}}>
 
       {/* Header */}
-      <header className="bg-slate-900/90 border-b border-slate-800 px-4 py-3 sticky top-0 z-10 backdrop-blur-sm">
+      <header className="header-texture border-b border-blue-900/30 px-6 py-5 sticky top-0 z-10 backdrop-blur-md">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-1 h-7 bg-blue-500 rounded-full" />
+          <div className="flex items-center gap-4">
+            <div className="flex flex-col gap-1">
+              <div className="w-6 h-0.5 bg-blue-400 rounded-full" />
+              <div className="w-4 h-0.5 bg-blue-500/60 rounded-full" />
+              <div className="w-5 h-0.5 bg-blue-600/40 rounded-full" />
+            </div>
             <div>
-              <h1 className="text-sm font-bold text-white tracking-tight leading-none">
-                Puget Sound Fishing
+              <h1 className="text-3xl font-extrabold text-white tracking-tight leading-none">
+                Flashing Hoochies
               </h1>
-              <p className="text-xs text-slate-500 mt-0.5">Shilshole · Redondo · Armeni</p>
+              <p className="text-xs text-blue-400/60 mt-1.5 tracking-[0.2em] uppercase font-medium">
+                Shilshole · Redondo · Armeni
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             {conditions?.cachedAt && (
-              <span className="text-xs text-slate-600 hidden sm:block">
-                Updated {new Date(conditions.cachedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
-              </span>
+              <div className="hidden sm:flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot" />
+                <span className="text-xs text-slate-500">
+                  {new Date(conditions.cachedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
+                </span>
+              </div>
             )}
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="text-xs font-medium bg-blue-600 hover:bg-blue-500 disabled:opacity-40 px-3 py-1.5 rounded-lg text-white transition-colors"
+              className="text-xs font-semibold bg-blue-600/80 hover:bg-blue-500 disabled:opacity-40 px-4 py-2 rounded-lg text-white transition-all border border-blue-500/30 hover:border-blue-400/50"
             >
               {refreshing ? 'Refreshing…' : 'Refresh'}
             </button>
@@ -84,29 +93,29 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-5">
+      <main className="max-w-4xl mx-auto px-4 py-6">
 
         {/* Good conditions banner */}
         {!loading && goodRamps.length > 0 && (
-          <div className="mb-5 rounded-xl border border-emerald-700/50 bg-emerald-950/40 px-4 py-3 flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+          <div className="mb-6 rounded-2xl border border-emerald-700/40 bg-gradient-to-r from-emerald-950/60 to-emerald-900/20 px-5 py-4 flex items-center gap-4">
+            <div className="w-3 h-3 rounded-full bg-emerald-400 live-dot flex-shrink-0" />
             <div>
-              <p className="text-sm font-semibold text-emerald-300">Good conditions right now</p>
-              <p className="text-xs text-emerald-600 mt-0.5">{goodRamps.map(r => r.display).join(' · ')}</p>
+              <p className="text-sm font-bold text-emerald-300 tracking-wide">Good conditions right now</p>
+              <p className="text-xs text-emerald-600 mt-0.5 font-medium">{goodRamps.map(r => r.display).join(' · ')}</p>
             </div>
           </div>
         )}
 
         {/* Tab nav */}
-        <div className="flex gap-1 mb-5 bg-slate-800/60 border border-slate-700/50 p-1 rounded-xl w-fit">
+        <div className="flex gap-1 mb-6 p-1 rounded-xl w-fit" style={{background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)'}}>
           {['conditions', 'regulations'].map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
                 activeTab === tab
-                  ? 'bg-blue-600 text-white shadow'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50'
+                  : 'text-slate-500 hover:text-slate-300'
               }`}
             >
               {tab === 'conditions' ? 'Conditions' : 'Regulations'}
@@ -116,19 +125,19 @@ export default function App() {
 
         {/* Loading */}
         {loading && (
-          <div className="flex items-center justify-center py-24 text-slate-500">
+          <div className="flex items-center justify-center py-32 text-slate-600">
             <div className="text-center">
-              <div className="w-8 h-8 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-sm">Loading conditions…</p>
+              <div className="w-10 h-10 border-2 border-slate-800 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-sm font-medium">Loading conditions…</p>
             </div>
           </div>
         )}
 
         {/* Error */}
         {error && !loading && (
-          <div className="bg-red-950/50 border border-red-800/60 rounded-xl p-5 text-red-300">
-            <p className="font-semibold text-sm">Connection Error</p>
-            <p className="text-xs mt-1 text-red-400/80">{error}</p>
+          <div className="rounded-2xl border border-red-800/50 bg-red-950/30 p-5 text-red-300">
+            <p className="font-bold text-sm">Connection Error</p>
+            <p className="text-xs mt-1 text-red-400/70">{error}</p>
           </div>
         )}
 
