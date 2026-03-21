@@ -66,7 +66,7 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-3xl font-extrabold text-white tracking-tight leading-none">
-                Flashing Hoochie
+                Slack Tide
               </h1>
               <p className="text-xs text-blue-400/60 mt-1.5 tracking-[0.2em] uppercase font-medium">
                 Shilshole · Redondo · Armeni
